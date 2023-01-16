@@ -24,6 +24,12 @@
     "format": "npx prettier --write .",
     "prepare": "husky install"
   },
+  "lint-staged": {
+	"src/**/*.{js,jsx}": [
+	  "npm run format",
+	  "npm run lint:fix"
+	]
+ },
   "eslintConfig": {
     "extends": [
       "react-app",
