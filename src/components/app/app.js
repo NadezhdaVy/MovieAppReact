@@ -1,8 +1,12 @@
 import React from 'react'
+import { Layout } from 'antd'
 
+import SearchMovie from '../search-movie'
 import MovieList from '../movie-list'
 import MovieService from '../../services/movie-service'
 import './app.css'
+
+const { Header } = Layout
 
 export default class App extends React.Component {
   state = {
@@ -33,7 +37,12 @@ export default class App extends React.Component {
   render() {
     return (
       <div className="movie-app">
-        <MovieList items={this.state.items} isLoaded={this.state.isLoaded} error={this.state.error} />
+        <Layout className="content-layout">
+          <Header className="header-input">
+            <SearchMovie />
+          </Header>
+          <MovieList items={this.state.items} isLoaded={this.state.isLoaded} error={this.state.error} />
+        </Layout>
       </div>
     )
   }
