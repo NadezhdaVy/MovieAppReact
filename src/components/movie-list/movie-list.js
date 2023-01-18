@@ -1,5 +1,5 @@
 import React from 'react'
-import { Card, List, Tag, Alert, Layout, Skeleton } from 'antd'
+import { Card, List, Tag, Alert, Layout } from 'antd'
 import { Offline, Online } from 'react-detect-offline'
 
 import './movie-list.css'
@@ -14,7 +14,7 @@ export default class MovieList extends React.Component {
     const { error, isLoaded, items } = this.props
 
     const hasData = !(!isLoaded || error)
-    const errorMsg = error ? <ErrorIndicator /> : null
+    const errorMsg = error ? <ErrorIndicator err={error} /> : null
     const loading = !isLoaded ? <Spinner /> : null
     const content = hasData ? <ViewContent items={items} /> : null
 
@@ -37,12 +37,7 @@ export default class MovieList extends React.Component {
 function ViewContent({ items }) {
   return (
     <List
-      pagination={{
-        onChange: (page) => {
-          console.log(page)
-        },
-        pageSize: 6,
-      }}
+      className="movie-list"
       grid={{ gutter: 16, column: 2 }}
       dataSource={items}
       renderItem={(item) => (
@@ -50,16 +45,7 @@ function ViewContent({ items }) {
           <Card
             className="movie-item"
             hoverable
-            cover={
-              <>
-                <Online>
-                  <img className="movie-avatar" alt="example" src={`https://image.tmdb.org/t/p/w500/${item.cover}`} />
-                </Online>
-                <Offline>
-                  <Skeleton.Image active className="offline-img" />
-                </Offline>
-              </>
-            }
+            cover={<img className="movie-avatar" alt="example" src={`https://image.tmdb.org/t/p/w500/${item.cover}`} />}
           >
             <Meta
               className="item-body"

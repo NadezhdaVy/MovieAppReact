@@ -11,7 +11,7 @@ export default class MovieService {
       if (res.status === 422) {
         return []
       }
-      throw new Error('Error!')
+      throw new Error('Something went wrong')
     }
     const body = await res.json()
 
@@ -19,13 +19,13 @@ export default class MovieService {
   }
 
   formatDate(date) {
-    return String(format(parseISO(date), 'MMM dd, YYY'))
+    return format(parseISO(date), 'MMM dd, YYY').toString()
   }
 
   transformData = (movie) => ({
-    title: movie.title,
+    title: movie.original_title,
     overview: movie.overview,
-    releaseDate: this.formatDate(movie.release_date),
+    releaseDate: movie.release_date,
     cover: movie.poster_path,
   })
 }
