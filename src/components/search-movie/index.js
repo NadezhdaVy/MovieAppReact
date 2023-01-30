@@ -1,3 +1,3 @@
-import SearchMovie from './search.movie'
+import SearchMovie from './search-movie'
 
 export default SearchMovie

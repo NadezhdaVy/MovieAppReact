@@ -1,0 +1,49 @@
+.card-description {
+background-color: beige;
+height: 220px;
+display: inline;
+
+
+}
+
+.movie-rate {
+	position: absolute;
+	bottom: .6em;
+
+}
+
+.item-body {
+	/*background-color: brown;*/
+
+	/*max-height: 230px;*/
+	/*display: flex;*/
+}
+
+.movie-item {
+	border-radius: 0;
+	box-shadow: 5px 5px 12px rgba(0,0,0,0.15);
+	display: grid;
+	grid-template-columns: 35% 55%;
+	/*height: 400px;*/
+	box-sizing: border-box;
+	/*background-color: aquamarine;*/
+}
+
+
+
+.ant-card .ant-card-cover img {
+	border-radius: 0;
+height: fit-content;
+
+}
+
+.movie-item .movie-description {
+	height: 160px;
+	overflow: hidden;
+	/*background-color: azure;*/
+
+	
+	
+	
+}
+
