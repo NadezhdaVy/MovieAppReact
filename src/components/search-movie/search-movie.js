@@ -21,7 +21,7 @@ class SearchMovie extends React.Component {
   render() {
     return (
       <Input
-        className="input-form"
+        className={this.props.tabIndex === 1 ? 'input-form' : 'hidden'}
         placeholder="Find movie"
         value={this.state.title}
         onChange={(e) => this.handleChange(e)}

@@ -3,7 +3,7 @@ import { List } from 'antd'
 
 import MovieCard from '../movie-card'
 
-function ViewContent({ items }) {
+function ViewContent({ items, loading }) {
   return (
     <List
       className="movie-list"
@@ -11,7 +11,7 @@ function ViewContent({ items }) {
       dataSource={items}
       renderItem={(item) => (
         <List.Item className="list-item" key={item.movieId}>
-          <MovieCard item={item} />
+          <MovieCard loading={loading} item={item} />
         </List.Item>
       )}
     />

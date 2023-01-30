@@ -1,9 +1,11 @@
 import React from 'react'
 import { Tabs } from 'antd'
 
-import MovieList from '../movie-list'
+import { AllMovies, RatedMovies } from '../movie-components/movie-components'
+// import MovieList from '../movie-list'
 import './movie-tabs.css'
-import RatedMovies from '../rated-movies'
+// import RatedMovies from '../rated-movies'
+// import { MovieServiceConsumer } from '../movie-service-context'
 
 export default class MovieTabs extends React.Component {
   state = {
@@ -11,7 +13,7 @@ export default class MovieTabs extends React.Component {
   }
 
   onChange = (key) => {
-    this.setState({ tabIndex: key })
+    this.setState({ tabIndex: Number(key) })
   }
 
   render() {
@@ -25,7 +27,7 @@ export default class MovieTabs extends React.Component {
           {
             label: 'Search',
             key: '1',
-            children: <MovieList />,
+            children: <AllMovies tabIndex={this.state.tabIndex} />,
           },
           {
             label: 'Rated',

@@ -13,7 +13,6 @@ function MoviePagination({ onChangePage, pageNumber }) {
       onChange={onChange}
       total={500}
       showSizeChanger={false}
-      pageSize={6}
     />
   )
 }

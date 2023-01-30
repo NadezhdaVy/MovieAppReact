@@ -1,15 +1,10 @@
-import format from 'date-fns/format'
-import parseISO from 'date-fns/parseISO'
-
 export default class MovieService {
-  state = {
-    genres: [],
-  }
+  apiKey = 'b148e613703bb124f9200d5cf507d9b3'
+
+  baseUrl = 'https://api.themoviedb.org/3/'
 
   async getTokenData() {
-    const result = await fetch(
-      'https://api.themoviedb.org/3/authentication/guest_session/new?api_key=b148e613703bb124f9200d5cf507d9b3'
-    )
+    const result = await fetch(`${this.baseUrl}3/authentication/guest_session/new?api_key=${this.apiKey}`)
     if (!result.ok) {
       throw new Error('Something went wrong')
     }
@@ -21,13 +16,24 @@ export default class MovieService {
     localStorage.setItem('tokenData', JSON.stringify(token))
   }
 
-  getResource = async (movieTitle, page) => {
-    if (!localStorage.getItem('tokenData')) {
+  setToken = async () => {
+    const tokenData = localStorage.getItem('tokenData')
+    if (!tokenData) {
       await this.getTokenData().then((res) => this.saveToken(res))
+    } else {
+      const tokenDate = JSON.parse(tokenData).expires_at
+      if (new Date() > new Date(tokenDate)) {
+        localStorage.removeItem('tokenData')
+        await this.getTokenData().then((res) => this.saveToken(res))
+      }
     }
+  }
+
+  getResource = async (page, movieTitle) => {
+    await this.setToken()
 
     const res = await fetch(
-      `https://api.themoviedb.org/3/search/movie?api_key=b148e613703bb124f9200d5cf507d9b3&language=en-US&query=${movieTitle}&page=${page}`
+      `${this.baseUrl}search/movie?api_key=${this.apiKey}&language=en-US&query=${movieTitle}&page=${page}`
     )
 
     if (!res.ok) {
@@ -42,9 +48,7 @@ export default class MovieService {
   }
 
   getGenres = async () => {
-    const res = await fetch(
-      'https://api.themoviedb.org/3/genre/movie/list?api_key=b148e613703bb124f9200d5cf507d9b3&language=en-US'
-    )
+    const res = await fetch(`${this.baseUrl}genre/movie/list?api_key=${this.apiKey}&language=en-US`)
 
     if (!res.ok) {
       throw new Error('Something went wrong')
@@ -58,7 +62,7 @@ export default class MovieService {
     const tokenData = JSON.parse(localStorage.getItem('tokenData'))
     const tokenID = tokenData.guest_session_id
     const res = await fetch(
-      `https://api.themoviedb.org/3/guest_session/${tokenID}/rated/movies?api_key=b148e613703bb124f9200d5cf507d9b3&language=en-US&sort_by=created_at.asc&page=${page}`
+      `${this.baseUrl}guest_session/${tokenID}/rated/movies?api_key=${this.apiKey}&language=en-US&sort_by=created_at.asc&page=${page}`
     )
 
     if (!res.ok) {
@@ -77,7 +81,7 @@ export default class MovieService {
     const tokenID = tokenData.guest_session_id
 
     const response = await fetch(
-      `https://api.themoviedb.org/3/movie/${movieID}/rating?api_key=b148e613703bb124f9200d5cf507d9b3&guest_session_id=${tokenID}`,
+      `${this.baseUrl}movie/${movieID}/rating?api_key=${this.apiKey}&guest_session_id=${tokenID}`,
       {
         method: 'POST',
         headers: {
@@ -94,8 +98,6 @@ export default class MovieService {
     return result
   }
 
-  formatDate = (date) => format(parseISO(date), 'MMM dd, YYY').toString()
-
   transformData = (movie) => ({
     title: movie.original_title,
     overview: movie.overview,
@@ -107,5 +109,5 @@ export default class MovieService {
     genres: movie.genre_ids,
   })
 }
-
-console.log(localStorage.getItem('tokenData'))
+const o = JSON.parse(localStorage.getItem('tokenData'))
+console.log(o)
