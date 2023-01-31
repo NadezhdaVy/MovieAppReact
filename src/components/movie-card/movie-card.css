@@ -1,94 +1,81 @@
-
-
 .movie-item {
-	border-radius: 0;
-	box-shadow: 5px 5px 12px rgba(0,0,0,0.15);
-	display: grid;
-	grid-template-columns: 35% 55%;
-	height: 350px;
-	box-sizing: border-box;
-	width: 100%;
+  border-radius: 0;
+  box-shadow: 5px 5px 12px rgba(0, 0, 0, 0.15);
+  display: grid;
+  grid-template-columns: 35% 55%;
+  height: 350px;
+  box-sizing: border-box;
+  width: 100%;
 }
 
 @media screen and (max-width: 1140px) {
-	.movie-item .card-description{
-		min-height: 50px;
-		max-height: 200px;
-	}
+  .movie-item .card-description {
+    min-height: 50px;
+    max-height: 200px;
+  }
 
-	.movie-item{
-		height: 320px;
-	}
+  .movie-item {
+    height: 320px;
+  }
 }
 
 @media screen and (max-width: 800px) {
+  .movie-item .movie-description {
+    height: 200px;
+  }
 
-	.movie-item .movie-description {
-		height: 200px;
-		
-	}
+  .movie-item .movie-description {
+    height: 100px;
+    overflow: visible;
+    position: absolute;
+    bottom: 2.5em;
+    left: 1em;
+    right: 1em;
+  }
 
-	.movie-item .movie-description {
-		height: 100px;
-		overflow: visible;
-		position: absolute;
-		bottom: 2.5em;
-		left: 1em;
-		right: 1em;
-	
-	}
-
-	.movie-item {
-	
-	height: 310px;
-		grid-template-columns: 30% 70%;
-	}
+  .movie-item {
+    height: 310px;
+    grid-template-columns: 30% 70%;
+  }
 }
 
 @media screen and (max-width: 762px) {
-	.movie-item .movie-description {
-		height: auto;
-		position: static;
-		
-	}
+  .movie-item .movie-description {
+    height: auto;
+    position: static;
+  }
 
-
-	.movie-item{
-		height: 320px;
-	}
+  .movie-item {
+    height: 320px;
+  }
 }
 
 @media screen and (max-width: 470px) {
-	.movie-item .movie-description {
-		height: 90px;
-		overflow: visible;
-		position: absolute;
-		bottom: .5em;
-		left: 1em;
-	}
-	.movie-item {
-		width: 350px;
-		height: 300px;
-		grid-template-columns: 30% 70%;
-	}
+  .movie-item .movie-description {
+    height: 90px;
+    overflow: visible;
+    position: absolute;
+    bottom: 0.5em;
+    left: 1em;
+  }
+  .movie-item {
+    width: 350px;
+    height: 300px;
+    grid-template-columns: 30% 70%;
+  }
 }
 
 @media screen and (max-width: 400px) {
-.movie-item{
-	height: 300px;
-	width: 320px;
+  .movie-item {
+    height: 300px;
+    width: 320px;
+  }
+
+  .movie-item .movie-description {
+    height: 90px;
+    overflow: visible;
+    position: absolute;
+    bottom: 3em;
+    left: 1em;
+  }
 }
-
-.movie-item .movie-description {
-	height: 90px;
-	overflow: visible;
-	position: absolute;
-	bottom: 3em;
-	left: 1em;
-}
-}
-
-
-
-
-
