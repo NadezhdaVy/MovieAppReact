@@ -2,10 +2,8 @@ import React from 'react'
 import { Tabs } from 'antd'
 
 import { AllMovies, RatedMovies } from '../movie-components/movie-components'
-// import MovieList from '../movie-list'
+
 import './movie-tabs.css'
-// import RatedMovies from '../rated-movies'
-// import { MovieServiceConsumer } from '../movie-service-context'
 
 export default class MovieTabs extends React.Component {
   state = {
@@ -19,9 +17,12 @@ export default class MovieTabs extends React.Component {
   render() {
     return (
       <Tabs
+        tabBarGutter={30}
+        size="large"
+        tabBarStyle={{ width: '150px', margin: '0 auto', marginBottom: '1em' }}
         className="movie-tabs"
         defaultActiveKey="1"
-        centered
+        disabled
         onChange={this.onChange}
         items={[
           {

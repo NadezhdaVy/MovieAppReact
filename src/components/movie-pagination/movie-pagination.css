@@ -1,4 +1,5 @@
 .movie-pagination {
 	display: flex;
 	justify-content: center;
+	padding: .5em;
 }

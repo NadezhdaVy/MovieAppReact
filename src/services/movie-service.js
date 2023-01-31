@@ -4,7 +4,7 @@ export default class MovieService {
   baseUrl = 'https://api.themoviedb.org/3/'
 
   async getTokenData() {
-    const result = await fetch(`${this.baseUrl}3/authentication/guest_session/new?api_key=${this.apiKey}`)
+    const result = await fetch(`${this.baseUrl}authentication/guest_session/new?api_key=${this.apiKey}`)
     if (!result.ok) {
       throw new Error('Something went wrong')
     }
@@ -31,20 +31,19 @@ export default class MovieService {
 
   getResource = async (page, movieTitle) => {
     await this.setToken()
+    if (movieTitle.trim()) {
+      const res = await fetch(
+        `${this.baseUrl}search/movie?api_key=${this.apiKey}&language=en-US&query=${movieTitle}&page=${page}`
+      )
 
-    const res = await fetch(
-      `${this.baseUrl}search/movie?api_key=${this.apiKey}&language=en-US&query=${movieTitle}&page=${page}`
-    )
-
-    if (!res.ok) {
-      if (res.status === 422) {
-        return []
+      if (!res.ok) {
+        throw new Error('Something went wrong')
       }
-      throw new Error('Something went wrong')
-    }
-    const body = await res.json()
+      const body = await res.json()
 
-    return body.results.map(this.transformData)
+      return body.results.map(this.transformData)
+    }
+    return []
   }
 
   getGenres = async () => {
@@ -66,9 +65,6 @@ export default class MovieService {
     )
 
     if (!res.ok) {
-      if (res.status === 422) {
-        return []
-      }
       throw new Error('Something went wrong')
     }
     const body = await res.json()
@@ -109,5 +105,3 @@ export default class MovieService {
     genres: movie.genre_ids,
   })
 }
-const o = JSON.parse(localStorage.getItem('tokenData'))
-console.log(o)

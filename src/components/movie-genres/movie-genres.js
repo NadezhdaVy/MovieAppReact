@@ -1,12 +1,20 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { Tag } from 'antd'
 
-import MovieService from '../../services/movie-service'
+import './movie-genres.css'
 
 export default class MovieGenres extends React.Component {
-  id = 2000
+  static defaultProps = {
+    getGenres: () => {},
+  }
 
-  MovieService = new MovieService()
+  static propTypes = {
+    genres: PropTypes.arrayOf(PropTypes.number).isRequired,
+    getGenres: PropTypes.func,
+  }
+
+  id = 2000
 
   state = {
     genres: [],
@@ -20,7 +28,8 @@ export default class MovieGenres extends React.Component {
   }
 
   getMovieGenres = () => {
-    this.MovieService.getGenres().then(
+    const { getGenres } = this.props
+    getGenres().then(
       (res) => {
         this.setState({
           genres: res,

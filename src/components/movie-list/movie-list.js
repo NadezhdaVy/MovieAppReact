@@ -1,15 +1,22 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 import ViewContent from '../view-content'
 import SearchMovie from '../search-movie'
-// import MovieService from '../../services/movie-service'
 import MoviePagination from '../movie-pagination'
 import './movie-list.css'
 import ErrorIndicator from '../error-indicator'
 import Spinner from '../spinner'
 
 export default class MovieList extends React.Component {
-  //  MovieService = new MovieService()
+  static defaultProps = {
+    getData: () => {},
+  }
+
+  static propTypes = {
+    tabIndex: PropTypes.number.isRequired,
+    getData: PropTypes.func,
+  }
 
   state = {
     error: null,
@@ -30,7 +37,6 @@ export default class MovieList extends React.Component {
       this.props.tabIndex !== prevProps.tabIndex
     ) {
       this.updateMovieList(this.state.page, this.state.title)
-      console.log(this.props.tabIndex)
     }
   }
 
@@ -61,11 +67,15 @@ export default class MovieList extends React.Component {
   }
 
   render() {
-    const { error, isLoaded, items, page: pageNumber } = this.state
+    const { error, isLoaded, items, page: pageNumber, title } = this.state
 
     const search =
       this.props.tabIndex === 1 ? (
-        <SearchMovie tabIndex={this.props.tabIndex} onSearchMovie={(value) => this.onSearchMovie(value)} />
+        <SearchMovie
+          title={title}
+          tabIndex={this.props.tabIndex}
+          onSearchMovie={(value) => this.onSearchMovie(value)}
+        />
       ) : null
     const hasData = !(!isLoaded || error)
     const errorMsg = error ? <ErrorIndicator err={error} /> : null

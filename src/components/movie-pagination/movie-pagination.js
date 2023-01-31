@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { Pagination } from 'antd'
 import './movie-pagination.css'
 
@@ -15,6 +16,15 @@ function MoviePagination({ onChangePage, pageNumber }) {
       showSizeChanger={false}
     />
   )
+}
+
+MoviePagination.propTypes = {
+  onChangePage: PropTypes.func,
+  pageNumber: PropTypes.number.isRequired,
+}
+
+MoviePagination.defaultProps = {
+  onChangePage: () => {},
 }
 
 export default MoviePagination

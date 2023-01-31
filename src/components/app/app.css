@@ -1,17 +1,10 @@
-.content-layout .header-input {
-	background: white;
-	padding-inline: 0;
-	
-}
+.movie-app {
 
-.content-layout {
-	background-color: white;
-	min-height: 100vh;
 	max-width: 1440px;
-	margin:  0 auto;
-	padding: 0 1.5em;
-
+	margin: 0 auto;
 }
+
+
 
 
 

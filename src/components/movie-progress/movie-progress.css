@@ -1,6 +1,13 @@
-.movie-progress {
-
+.movie-progress{
 	position: absolute;
-	top: 1em;
 	right: 1em;
+	top: 1em;
+}
+
+
+@media screen and (max-width: 400px) {
+	.movie-progress{
+	right: .5em;
+	top: .5em;
+	}
 }
