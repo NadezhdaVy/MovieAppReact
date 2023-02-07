@@ -1,7 +1,20 @@
-export default class MovieService {
-  apiKey = 'b148e613703bb124f9200d5cf507d9b3'
+import BaseMovieService from './base-movie-service'
 
-  baseUrl = 'https://api.themoviedb.org/3/'
+export default class MovieService extends BaseMovieService {
+  getRatedIds = async () => {
+    const allRes = []
+    const rated = await this.getRatedMovies(1)
+    let i = 1
+    while (i <= rated[1]) {
+      this.getRatedMovies(i).then((result) => {
+        const getRateAndIds = result[0]
+        allRes.push(...getRateAndIds)
+      })
+      i++
+    }
+
+    return allRes
+  }
 
   async getTokenData() {
     const result = await fetch(`${this.baseUrl}authentication/guest_session/new?api_key=${this.apiKey}`)
@@ -9,6 +22,7 @@ export default class MovieService {
       throw new Error('Something went wrong')
     }
     const tokenData = await result.json()
+
     return tokenData
   }
 
@@ -41,7 +55,7 @@ export default class MovieService {
       }
       const body = await res.json()
 
-      return body.results.map(this.transformData)
+      return [body.results.map(this.transformData), body.total_pages]
     }
     return []
   }
@@ -69,7 +83,7 @@ export default class MovieService {
     }
     const body = await res.json()
 
-    return body.results.map(this.transformData)
+    return [body.results.map(this.transformData), body.total_pages]
   }
 
   rateMovie = async (rate, movieID) => {
@@ -91,6 +105,7 @@ export default class MovieService {
       throw new Error('Something went wrong')
     }
     const result = await response.json()
+
     return result
   }
 
@@ -100,8 +115,16 @@ export default class MovieService {
     releaseDate: movie.release_date,
     cover: `https://image.tmdb.org/t/p/w500/${movie.poster_path}`,
     movieId: movie.id,
-    rate: movie.rating ? movie.rating : movie.vote_average,
+    rate: movie.rating,
     averageVote: movie.vote_average,
     genres: movie.genre_ids,
   })
 }
+
+// const m = new MovieService()
+// m.getRatedMovies(1).then((res) => console.log(res))
+// m.getResource(1, 'harr').then((res) => console.log(res))
+// console.log(localStorage.getItem('tokenData'))
+// m.poo()
+
+// console.log(m.po)

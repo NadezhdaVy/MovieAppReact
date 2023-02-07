@@ -1,11 +1,11 @@
 import React from 'react'
 import { List } from 'antd'
-import PropTypes from 'prop-types'
+// import PropTypes from 'prop-types'
 
 import './view-content.css'
 import MovieCard from '../movie-card'
 
-function ViewContent({ items }) {
+function ViewContent({ items, totalPages, ratedItems, addNewMovie, tabIndex }) {
   return (
     <List
       className="movie-list"
@@ -13,14 +13,17 @@ function ViewContent({ items }) {
       dataSource={items}
       renderItem={(item) => (
         <List.Item className="list-item" key={item.movieId}>
-          <MovieCard item={item} />
+          <MovieCard
+            item={item}
+            totalPages={totalPages}
+            ratedItems={ratedItems}
+            addNewMovie={(movieItem, rate) => addNewMovie(movieItem, rate)}
+            tabIndex={tabIndex}
+          />
         </List.Item>
       )}
     />
   )
 }
 
-ViewContent.propTypes = {
-  items: PropTypes.arrayOf(PropTypes.object).isRequired,
-}
 export default ViewContent

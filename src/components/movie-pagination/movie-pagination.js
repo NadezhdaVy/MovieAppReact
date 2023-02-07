@@ -3,19 +3,27 @@ import PropTypes from 'prop-types'
 import { Pagination } from 'antd'
 import './movie-pagination.css'
 
-function MoviePagination({ onChangePage, pageNumber }) {
-  const onChange = (page) => {
-    onChangePage(page)
+class MoviePagination extends React.Component {
+  onChange = (page) => {
+    this.props.onChangePage(page)
   }
-  return (
-    <Pagination
-      className="movie-pagination"
-      current={pageNumber}
-      onChange={onChange}
-      total={500}
-      showSizeChanger={false}
-    />
-  )
+
+  render() {
+    const { pageNumber, totalPages, ratedItems, tabIndex } = this.props
+
+    const numberOfPages = tabIndex === 1 ? totalPages : ratedItems.length
+
+    return (
+      <Pagination
+        className="movie-pagination"
+        current={pageNumber}
+        onChange={this.onChange}
+        total={numberOfPages}
+        pageSize={20}
+        showSizeChanger={false}
+      />
+    )
+  }
 }
 
 MoviePagination.propTypes = {

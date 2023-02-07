@@ -1,18 +1,18 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+// import PropTypes from 'prop-types'
 import { Tag } from 'antd'
 
 import './movie-genres.css'
 
 export default class MovieGenres extends React.Component {
-  static defaultProps = {
-    getGenres: () => {},
-  }
+  //  static defaultProps = {
+  //    getGenres: () => {},
+  //  }
 
-  static propTypes = {
-    genres: PropTypes.arrayOf(PropTypes.number).isRequired,
-    getGenres: PropTypes.func,
-  }
+  //  static propTypes = {
+  //    genres: PropTypes.arrayOf(PropTypes.number).isRequired,
+  //    getGenres: PropTypes.func,
+  //  }
 
   id = 2000
 
@@ -50,6 +50,7 @@ export default class MovieGenres extends React.Component {
     if (!loading && !error) {
       const allGenres = genres
       const currentGenres = currGenres
+
       const names = allGenres.filter((item) => currentGenres.includes(item.id))
       return (
         <div className="movie-genres">

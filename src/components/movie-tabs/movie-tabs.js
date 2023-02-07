@@ -1,11 +1,13 @@
 import React from 'react'
 import { Tabs } from 'antd'
 
-import { AllMovies, RatedMovies } from '../movie-components/movie-components'
-
+import MovieList from '../movie-list'
+import MovieService from '../../services/movie-service'
 import './movie-tabs.css'
 
 export default class MovieTabs extends React.Component {
+  movieService = new MovieService()
+
   state = {
     tabIndex: 1,
   }
@@ -15,8 +17,53 @@ export default class MovieTabs extends React.Component {
   }
 
   render() {
+    const { getResource, getRatedMovies } = this.movieService
+
+    // const searchList =
+    //   this.state.tabIndex === 1 ? (
+    //     <MovieList
+    //       tabIndex={this.state.tabIndex}
+    //       getData={getResource}
+    //       ratedItems={this.props.ratedItems}
+    //       isLoaded={this.props.isLoaded}
+    //       addNewMovie={(movieItem, rate) => this.props.addNewMovie(movieItem, rate)}
+    //       update={this.props.update}
+    //     />
+    //   ) : null
+    // const ratedList =
+    //   this.state.tabIndex === 2 ? (
+    //     <MovieList
+    //       tabIndex={this.state.tabIndex}
+    //       getData={getRatedMovies}
+    //       ratedItems={this.props.ratedItems}
+    //       isLoaded={this.props.isLoaded}
+    //       addNewMovie={(movieItem, rate) => this.props.addNewMovie(movieItem, rate)}
+    //       update={this.props.update}
+    //     />
+    //   ) : null
+
     return (
+      // <Tabs
+      //  defaultActiveKey="1"
+      //  //  destroyInactiveTabPane
+      //  centered
+      //  onChange={this.onChange}
+      //  items={new Array(2).fill(null).map((_, i) => {
+      //    const id = String(i + 1)
+      //    return {
+      //      label: `Tab: ${id}`,
+      //      key: id,
+      //      children: (
+      //        <>
+      //          {searchList} {ratedList}
+      //        </>
+      //      ),
+      //    }
+      //  })}
+      /// >
+
       <Tabs
+        destroyInactiveTabPane
         tabBarGutter={30}
         size="large"
         tabBarStyle={{ width: '150px', margin: '0 auto', marginBottom: '1em' }}
@@ -28,12 +75,30 @@ export default class MovieTabs extends React.Component {
           {
             label: 'Search',
             key: '1',
-            children: <AllMovies tabIndex={this.state.tabIndex} />,
+            children: (
+              <MovieList
+                tabIndex={this.state.tabIndex}
+                getData={getResource}
+                ratedItems={this.props.ratedItems}
+                isLoaded={this.props.isLoaded}
+                addNewMovie={(movieItem, rate) => this.props.addNewMovie(movieItem, rate)}
+                update={this.props.update}
+              />
+            ),
           },
           {
             label: 'Rated',
             key: '2',
-            children: <RatedMovies tabIndex={this.state.tabIndex} />,
+            children: (
+              <MovieList
+                tabIndex={this.state.tabIndex}
+                getData={getRatedMovies}
+                ratedItems={this.props.ratedItems}
+                isLoaded={this.props.isLoaded}
+                addNewMovie={(movieItem, rate) => this.props.addNewMovie(movieItem, rate)}
+                update={this.props.update}
+              />
+            ),
           },
         ]}
       />

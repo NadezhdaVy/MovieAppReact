@@ -10,7 +10,6 @@ export default class RateMovie extends React.Component {
   }
 
   static propTypes = {
-    rate: PropTypes.number.isRequired,
     rateMovie: PropTypes.func,
   }
 
@@ -21,6 +20,7 @@ export default class RateMovie extends React.Component {
   componentDidUpdate(prevProps, prevState) {
     if (this.state.rateValue !== prevState.rateValue) {
       this.updateRating(this.state.rateValue, this.props.movieId)
+      this.props.addNewMovie(this.props.item, this.state.rateValue)
     }
   }
 

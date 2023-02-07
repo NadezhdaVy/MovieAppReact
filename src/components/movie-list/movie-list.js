@@ -21,9 +21,10 @@ export default class MovieList extends React.Component {
   state = {
     error: null,
     isLoaded: false,
-    items: [],
+    items: this.props.items,
     page: 1,
     title: '',
+    totalPages: 0,
   }
 
   componentDidMount() {
@@ -31,11 +32,7 @@ export default class MovieList extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (
-      prevState.page !== this.state.page ||
-      prevState.title !== this.state.title ||
-      this.props.tabIndex !== prevProps.tabIndex
-    ) {
+    if (prevState.page !== this.state.page || prevState.title !== this.state.title) {
       this.updateMovieList(this.state.page, this.state.title)
     }
   }
@@ -54,7 +51,8 @@ export default class MovieList extends React.Component {
       (res) => {
         this.setState({
           isLoaded: true,
-          items: res,
+          items: res[0],
+          totalPages: res[1],
         })
       },
       (error) => {
@@ -67,7 +65,7 @@ export default class MovieList extends React.Component {
   }
 
   render() {
-    const { error, isLoaded, items, page: pageNumber, title } = this.state
+    const { error, isLoaded, items, page: pageNumber, title, totalPages } = this.state
 
     const search =
       this.props.tabIndex === 1 ? (
@@ -77,11 +75,19 @@ export default class MovieList extends React.Component {
           onSearchMovie={(value) => this.onSearchMovie(value)}
         />
       ) : null
+
     const hasData = !(!isLoaded || error)
     const errorMsg = error ? <ErrorIndicator err={error} /> : null
     const loading = !isLoaded ? <Spinner /> : null
     const content = hasData ? (
-      <ViewContent loading={isLoaded} items={items} onChangeRate={(id, rate) => this.onRate(id, rate)} />
+      <ViewContent
+        loading={isLoaded}
+        items={items}
+        onChangeRate={(id, rate) => this.onRate(id, rate)}
+        ratedItems={this.props.ratedItems}
+        tabIndex={this.props.tabIndex}
+        addNewMovie={(movieItem, rate) => this.props.addNewMovie(movieItem, rate)}
+      />
     ) : null
 
     return (
@@ -91,7 +97,13 @@ export default class MovieList extends React.Component {
         {loading}
         {content}
 
-        <MoviePagination onChangePage={(page) => this.onChangePage(page)} pageNumber={pageNumber} />
+        <MoviePagination
+          ratedItems={this.props.ratedItems}
+          totalPages={totalPages}
+          onChangePage={(page) => this.onChangePage(page)}
+          pageNumber={pageNumber}
+          tabIndex={this.props.tabIndex}
+        />
       </>
     )
   }
