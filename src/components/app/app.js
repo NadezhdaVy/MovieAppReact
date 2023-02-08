@@ -33,9 +33,9 @@ export default class App extends React.Component {
   }
 
   render() {
-    const { isLoaded, guestSession, genres, error } = this.state
+    const { guestSession, isLoaded, genres, error } = this.state
     const content =
-      isLoaded && guestSession && !error ? (
+      guestSession && isLoaded && !error ? (
         <MovieServiceProvider value={genres}>
           <div className="movie-app">
             <Online>

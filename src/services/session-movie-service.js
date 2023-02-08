@@ -5,6 +5,7 @@ export default class SessionMovieService extends BaseMovieService {
 
   saveToken = (tok) => {
     localStorage.setItem('tokenData', JSON.stringify(tok))
+    this.token = tok
   }
 
   getTokenData = async () => {
@@ -21,16 +22,16 @@ export default class SessionMovieService extends BaseMovieService {
   setToken = async () => {
     if (!this.token) {
       const getToken = await this.getTokenData()
-      this.token = getToken
       this.saveToken(getToken)
-    } else {
-      const tokenDate = JSON.parse(this.token).expires_at
-      if (new Date() > new Date(tokenDate)) {
-        localStorage.removeItem('tokenData')
-        const refreshToken = await this.getTokenData()
-        this.token = refreshToken
-        this.saveToken(refreshToken)
-      }
+      return getToken
     }
+    const tokenDate = JSON.parse(this.token).expires_at
+    if (new Date() > new Date(tokenDate)) {
+      localStorage.removeItem('tokenData')
+      const refreshToken = await this.getTokenData()
+      this.saveToken(refreshToken)
+      return refreshToken
+    }
+    return this.token
   }
 }
