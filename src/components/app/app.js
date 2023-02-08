@@ -2,6 +2,7 @@ import React from 'react'
 import { Alert } from 'antd'
 import { Offline, Online } from 'react-detect-offline'
 
+import SessionMovieService from '../../services/session-movie-service'
 import ErrorIndicator from '../error-indicator'
 import Spinner from '../spinner'
 import MovieService from '../../services/movie-service'
@@ -13,13 +14,19 @@ import './app.css'
 export default class App extends React.Component {
   movieService = new MovieService()
 
+  sessionMovieService = new SessionMovieService()
+
   state = {
+    genres: [],
     ratedItems: [],
     isLoaded: false,
     error: null,
+    guestSession: false,
   }
 
   componentDidMount() {
+    this.movieService.getGenres().then((res) => this.setState({ genres: res }))
+    this.sessionMovieService.setToken().then(() => this.setState({ guestSession: true }))
     this.movieService.getRatedIds().then(
       (res) => {
         this.setState({ ratedItems: res, isLoaded: true })
@@ -56,23 +63,24 @@ export default class App extends React.Component {
   }
 
   render() {
-    const content = this.state.isLoaded ? (
-      <MovieServiceProvider value={this.movieService}>
-        <div className="movie-app">
-          <Online>
-            <MovieTabs
-              isLoaded={this.state.isLoaded}
-              ratedItems={this.state.ratedItems}
-              addNewMovie={(movieItem, rate) => this.addNewMovie(movieItem, rate)}
-            />
-          </Online>
-          <Offline>
-            <Alert className="offline-msg" message="You are currently offline!" type="warning" showIcon />
-            <MovieTabs />
-          </Offline>
-        </div>
-      </MovieServiceProvider>
-    ) : null
+    const content =
+      this.state.isLoaded && this.state.guestSession && this.state.genres.length > 0 ? (
+        <MovieServiceProvider value={this.state.genres}>
+          <div className="movie-app">
+            <Online>
+              <MovieTabs
+                isLoaded={this.state.isLoaded}
+                ratedItems={this.state.ratedItems}
+                addNewMovie={(movieItem, rate) => this.addNewMovie(movieItem, rate)}
+              />
+            </Online>
+            <Offline>
+              <Alert className="offline-msg" message="You are currently offline!" type="warning" showIcon />
+              <MovieTabs />
+            </Offline>
+          </div>
+        </MovieServiceProvider>
+      ) : null
     const err = this.state.error ? <ErrorIndicator err={this.state.error} /> : null
     const loading = !this.state.isLoaded ? <Spinner /> : null
     return (

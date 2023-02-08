@@ -1,6 +1,6 @@
 import React from 'react'
 import { List } from 'antd'
-// import PropTypes from 'prop-types'
+import PropTypes from 'prop-types'
 
 import './view-content.css'
 import MovieCard from '../movie-card'
@@ -24,6 +24,14 @@ function ViewContent({ items, totalPages, ratedItems, addNewMovie, tabIndex }) {
       )}
     />
   )
+}
+
+ViewContent.defaultProps = {
+  items: [],
+}
+
+ViewContent.propTypes = {
+  items: PropTypes.arrayOf(PropTypes.object),
 }
 
 export default ViewContent

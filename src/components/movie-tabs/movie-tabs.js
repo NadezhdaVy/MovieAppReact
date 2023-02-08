@@ -19,49 +19,7 @@ export default class MovieTabs extends React.Component {
   render() {
     const { getResource, getRatedMovies } = this.movieService
 
-    // const searchList =
-    //   this.state.tabIndex === 1 ? (
-    //     <MovieList
-    //       tabIndex={this.state.tabIndex}
-    //       getData={getResource}
-    //       ratedItems={this.props.ratedItems}
-    //       isLoaded={this.props.isLoaded}
-    //       addNewMovie={(movieItem, rate) => this.props.addNewMovie(movieItem, rate)}
-    //       update={this.props.update}
-    //     />
-    //   ) : null
-    // const ratedList =
-    //   this.state.tabIndex === 2 ? (
-    //     <MovieList
-    //       tabIndex={this.state.tabIndex}
-    //       getData={getRatedMovies}
-    //       ratedItems={this.props.ratedItems}
-    //       isLoaded={this.props.isLoaded}
-    //       addNewMovie={(movieItem, rate) => this.props.addNewMovie(movieItem, rate)}
-    //       update={this.props.update}
-    //     />
-    //   ) : null
-
     return (
-      // <Tabs
-      //  defaultActiveKey="1"
-      //  //  destroyInactiveTabPane
-      //  centered
-      //  onChange={this.onChange}
-      //  items={new Array(2).fill(null).map((_, i) => {
-      //    const id = String(i + 1)
-      //    return {
-      //      label: `Tab: ${id}`,
-      //      key: id,
-      //      children: (
-      //        <>
-      //          {searchList} {ratedList}
-      //        </>
-      //      ),
-      //    }
-      //  })}
-      /// >
-
       <Tabs
         destroyInactiveTabPane
         tabBarGutter={30}

@@ -8,8 +8,8 @@ import MovieService from '../../services/movie-service'
 import RateMovie from '../rate-movie'
 import MovieGenres from '../movie-genres'
 import MovieProgress from '../movie-progress'
-
 import './movie-card.css'
+import { MovieServiceConsumer } from '../movie-service-context'
 
 const { Meta } = Card
 
@@ -56,7 +56,8 @@ export default class MovieCard extends React.Component {
       return []
     }
 
-    const { rateMovie, getGenres } = this.movieService
+    const { rateMovie } = this.movieService
+
     return (
       <Card
         className="movie-item"
@@ -71,7 +72,9 @@ export default class MovieCard extends React.Component {
             <div className="card-description">
               <div>
                 <div className="date">{release}</div>
-                <MovieGenres genres={genres} id={movieId} getGenres={getGenres} />
+                <MovieServiceConsumer>
+                  {(value) => <MovieGenres genres={genres} id={movieId} allGenres={value} />}
+                </MovieServiceConsumer>
 
                 <p className="movie-description">{text}</p>
               </div>

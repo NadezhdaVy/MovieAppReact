@@ -1,19 +1,35 @@
 import BaseMovieService from './base-movie-service'
 
 export default class SessionMovieService extends BaseMovieService {
-  saveToken = (token) => {
-    localStorage.setItem('tokenData', JSON.stringify(token))
+  token = localStorage.getItem('tokenData')
+
+  saveToken = (tok) => {
+    localStorage.setItem('tokenData', JSON.stringify(tok))
+  }
+
+  getTokenData = async () => {
+    const getTokenUrl = this.createUrl('authentication/guest_session/new')
+    const result = await fetch(getTokenUrl)
+    if (!result.ok) {
+      throw new Error('Something went wrong')
+    }
+    const tokenData = await result.json()
+
+    return tokenData
   }
 
   setToken = async () => {
-    const tokenData = localStorage.getItem('tokenData')
-    if (!tokenData) {
-      await this.getTokenData().then((res) => this.saveToken(res))
+    if (!this.token) {
+      const getToken = await this.getTokenData()
+      this.token = getToken
+      this.saveToken(getToken)
     } else {
-      const tokenDate = JSON.parse(tokenData).expires_at
+      const tokenDate = JSON.parse(this.token).expires_at
       if (new Date() > new Date(tokenDate)) {
         localStorage.removeItem('tokenData')
-        await this.getTokenData().then((res) => this.saveToken(res))
+        const refreshToken = await this.getTokenData()
+        this.token = refreshToken
+        this.saveToken(refreshToken)
       }
     }
   }

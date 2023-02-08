@@ -16,39 +16,10 @@ export default class MovieService extends BaseMovieService {
     return allRes
   }
 
-  async getTokenData() {
-    const result = await fetch(`${this.baseUrl}authentication/guest_session/new?api_key=${this.apiKey}`)
-    if (!result.ok) {
-      throw new Error('Something went wrong')
-    }
-    const tokenData = await result.json()
-
-    return tokenData
-  }
-
-  saveToken = (token) => {
-    localStorage.setItem('tokenData', JSON.stringify(token))
-  }
-
-  setToken = async () => {
-    const tokenData = localStorage.getItem('tokenData')
-    if (!tokenData) {
-      await this.getTokenData().then((res) => this.saveToken(res))
-    } else {
-      const tokenDate = JSON.parse(tokenData).expires_at
-      if (new Date() > new Date(tokenDate)) {
-        localStorage.removeItem('tokenData')
-        await this.getTokenData().then((res) => this.saveToken(res))
-      }
-    }
-  }
-
   getResource = async (page, movieTitle) => {
-    await this.setToken()
     if (movieTitle.trim()) {
-      const res = await fetch(
-        `${this.baseUrl}search/movie?api_key=${this.apiKey}&language=en-US&query=${movieTitle}&page=${page}`
-      )
+      const resourceUrl = this.createUrl('search/movie', [{ language: 'en-US' }, { query: movieTitle }, { page }])
+      const res = await fetch(resourceUrl)
 
       if (!res.ok) {
         throw new Error('Something went wrong')
@@ -61,7 +32,8 @@ export default class MovieService extends BaseMovieService {
   }
 
   getGenres = async () => {
-    const res = await fetch(`${this.baseUrl}genre/movie/list?api_key=${this.apiKey}&language=en-US`)
+    const resourceUrl = this.createUrl('genre/movie/list', [{ language: 'en-US' }])
+    const res = await fetch(resourceUrl)
 
     if (!res.ok) {
       throw new Error('Something went wrong')
@@ -72,11 +44,12 @@ export default class MovieService extends BaseMovieService {
   }
 
   getRatedMovies = async (page) => {
-    const tokenData = JSON.parse(localStorage.getItem('tokenData'))
-    const tokenID = tokenData.guest_session_id
-    const res = await fetch(
-      `${this.baseUrl}guest_session/${tokenID}/rated/movies?api_key=${this.apiKey}&language=en-US&sort_by=created_at.asc&page=${page}`
-    )
+    const resourceUrl = this.createUrl(`guest_session/${this.tokenData}/rated/movies`, [
+      { language: 'en-US' },
+      { sort_by: 'created_at.asc' },
+      { page },
+    ])
+    const res = await fetch(resourceUrl)
 
     if (!res.ok) {
       throw new Error('Something went wrong')
@@ -87,20 +60,18 @@ export default class MovieService extends BaseMovieService {
   }
 
   rateMovie = async (rate, movieID) => {
-    const tokenData = JSON.parse(localStorage.getItem('tokenData'))
-    const tokenID = tokenData.guest_session_id
+    const resourceUrl = this.createUrl(`movie/${movieID}/rating`, [
+      { language: 'en-US' },
+      { guest_session_id: this.tokenData },
+    ])
+    const response = await fetch(resourceUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8',
+      },
 
-    const response = await fetch(
-      `${this.baseUrl}movie/${movieID}/rating?api_key=${this.apiKey}&guest_session_id=${tokenID}`,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json;charset=utf-8',
-        },
-
-        body: JSON.stringify({ value: rate }),
-      }
-    )
+      body: JSON.stringify({ value: rate }),
+    })
     if (!response.ok) {
       throw new Error('Something went wrong')
     }
@@ -120,11 +91,3 @@ export default class MovieService extends BaseMovieService {
     genres: movie.genre_ids,
   })
 }
-
-// const m = new MovieService()
-// m.getRatedMovies(1).then((res) => console.log(res))
-// m.getResource(1, 'harr').then((res) => console.log(res))
-// console.log(localStorage.getItem('tokenData'))
-// m.poo()
-
-// console.log(m.po)

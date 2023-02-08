@@ -1,1 +1,1 @@
-https://movie-app-react-lyart.vercel.app 
+https://movie-app-react-lyart.vercel.app
