@@ -18,61 +18,28 @@ export default class App extends React.Component {
 
   state = {
     genres: [],
-    ratedItems: [],
+
     isLoaded: false,
     error: null,
     guestSession: false,
   }
 
   componentDidMount() {
-    this.movieService.getGenres().then((res) => this.setState({ genres: res }))
-    this.sessionMovieService.setToken().then(() => this.setState({ guestSession: true }))
-    this.movieService.getRatedIds().then(
-      (res) => {
-        this.setState({ ratedItems: res, isLoaded: true })
-      },
-      (error) => {
-        this.setState({
-          isLoaded: true,
-          error,
-        })
-      }
+    this.movieService.getGenres().then(
+      (res) => this.setState({ genres: res, isLoaded: true }),
+      (error) => this.setState({ isLoaded: true, error })
     )
-  }
-
-  addNewMovie = (item, rate) => {
-    this.setState(({ ratedItems }) => ({ ratedItems: this.toggle(ratedItems, item, rate) }))
-  }
-
-  toggle = (arr, movieItem, vote) => {
-    let newArr
-
-    const index = arr.findIndex((el) => el.movieId === movieItem.movieId)
-
-    if (index !== -1) {
-      const oldItem = arr[index]
-      const newItem = { ...oldItem, rate: vote }
-
-      newArr = [...arr.slice(0, index), newItem, ...arr.slice(index + 1)]
-    }
-    if (index === -1) {
-      const newItem = { ...movieItem, rate: vote }
-      newArr = [...arr, newItem]
-    }
-    return newArr
+    this.sessionMovieService.setToken().then(() => this.setState({ guestSession: true }))
   }
 
   render() {
+    const { isLoaded, guestSession, genres, error } = this.state
     const content =
-      this.state.isLoaded && this.state.guestSession && this.state.genres.length > 0 ? (
-        <MovieServiceProvider value={this.state.genres}>
+      isLoaded && guestSession && !error ? (
+        <MovieServiceProvider value={genres}>
           <div className="movie-app">
             <Online>
-              <MovieTabs
-                isLoaded={this.state.isLoaded}
-                ratedItems={this.state.ratedItems}
-                addNewMovie={(movieItem, rate) => this.addNewMovie(movieItem, rate)}
-              />
+              <MovieTabs />
             </Online>
             <Offline>
               <Alert className="offline-msg" message="You are currently offline!" type="warning" showIcon />
@@ -81,8 +48,8 @@ export default class App extends React.Component {
           </div>
         </MovieServiceProvider>
       ) : null
-    const err = this.state.error ? <ErrorIndicator err={this.state.error} /> : null
-    const loading = !this.state.isLoaded ? <Spinner /> : null
+    const err = error ? <ErrorIndicator err={this.state.error} /> : null
+    const loading = !isLoaded ? <Spinner /> : null
     return (
       <>
         {content}
