@@ -44,7 +44,8 @@ export default class MovieService extends BaseMovieService {
   }
 
   getRatedMovies = async (page) => {
-    const resourceUrl = this.createUrl(`guest_session/${this.tokenData}/rated/movies`, [
+    const tokenID = JSON.parse(this.tokenData).guest_session_id
+    const resourceUrl = this.createUrl(`guest_session/${tokenID}/rated/movies`, [
       { language: 'en-US' },
       { sort_by: 'created_at.asc' },
       { page },
@@ -60,9 +61,10 @@ export default class MovieService extends BaseMovieService {
   }
 
   rateMovie = async (rate, movieID) => {
+    const tokenID = JSON.parse(this.tokenData).guest_session_id
     const resourceUrl = this.createUrl(`movie/${movieID}/rating`, [
       { language: 'en-US' },
-      { guest_session_id: this.tokenData },
+      { guest_session_id: tokenID },
     ])
     const response = await fetch(resourceUrl, {
       method: 'POST',

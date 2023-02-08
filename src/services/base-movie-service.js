@@ -3,7 +3,7 @@ export default class BaseMovieService {
 
   baseUrl = 'https://api.themoviedb.org/3/'
 
-  tokenData = JSON.parse(localStorage.getItem('tokenData')).guest_session_id
+  tokenData = localStorage.getItem('tokenData')
 
   createUrl = (url, params) => {
     const newUrl = new URL(url, this.baseUrl)
