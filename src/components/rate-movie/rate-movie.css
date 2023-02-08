@@ -3,8 +3,8 @@
   bottom: 0.6em;
   right: 1em;
 }
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 540px) {
   .movie-rate {
-    bottom: 0.3em;
+    bottom: 0.1em;
   }
 }

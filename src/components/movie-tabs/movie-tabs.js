@@ -65,7 +65,8 @@ export default class MovieTabs extends React.Component {
         destroyInactiveTabPane
         tabBarGutter={30}
         size="large"
-        tabBarStyle={{ width: '150px', margin: '0 auto', marginBottom: '1em' }}
+        centered
+        //  tabBarStyle={{ width: '150px', margin: '0 auto', marginBottom: '1em' }}
         className="movie-tabs"
         defaultActiveKey="1"
         disabled
