@@ -12,6 +12,8 @@ import MovieProgress from '../movie-progress'
 import './movie-card.css'
 import { MovieServiceConsumer } from '../movie-service-context'
 
+import icon from './no-cover.png'
+
 const { Meta } = Card
 
 function MovieCard({
@@ -45,7 +47,7 @@ function MovieCard({
 
     return `${text.trim()}...`
   }
-
+  console.log(icon)
   let movie
   if (item && tabIndex === 1) {
     const getItem = ratedItems.find((el) => el.movieId === movieId)
@@ -60,7 +62,7 @@ function MovieCard({
 
   const release = releaseDate ? formatDate(releaseDate) : null
   const text = overview ? cutText(overview) : null
-  const img = cover || null
+  const img = cover ? `https://image.tmdb.org/t/p/w500/${cover}` : icon
 
   if (!movieId) {
     return []
@@ -81,7 +83,7 @@ function MovieCard({
         height: '300px',
         borderRadius: '0',
       }}
-      cover={<img style={{ borderRadius: '0px' }} className="movie-avatar" alt="example" src={img} />}
+      cover={<img style={{ borderRadius: '0px' }} className="movie-avatar" alt="poster" src={img} />}
     >
       <MovieProgress progress={averageVote} />
       <Meta

@@ -86,7 +86,7 @@ export default class MovieService extends BaseMovieService {
     title: movie.original_title,
     overview: movie.overview,
     releaseDate: movie.release_date,
-    cover: `https://image.tmdb.org/t/p/w500/${movie.poster_path}`,
+    cover: movie.poster_path,
     movieId: movie.id,
     rate: movie.rating,
     averageVote: movie.vote_average,
