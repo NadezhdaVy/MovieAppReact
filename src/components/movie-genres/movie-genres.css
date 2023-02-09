@@ -1,5 +1,6 @@
 .movie-genres {
   margin-top: 0.5em;
+position: absolute;
 }
 
 .genre {

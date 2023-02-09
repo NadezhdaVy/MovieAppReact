@@ -29,7 +29,7 @@ function MovieCard({
   const cutText = (text) => {
     let maxLength = 60
     if (width > 1210) {
-      maxLength = 180
+      maxLength = 170
     } else if (width > 1130 && width < 1210) {
       maxLength = 120
     } else if (width > 768 && width < 1130) {
@@ -65,17 +65,28 @@ function MovieCard({
   if (!movieId) {
     return []
   }
-
+  console.log(width)
   const { rateMovie } = movieService
 
   return (
     <Card
       className="movie-item"
-      hoverable={false}
+      hoverable
+      bodyStyle={{
+        maxWidth: '200px',
+      }}
+      style={{
+        display: 'grid',
+        gridTemplateColumns: '30% 70%',
+
+        height: '300px',
+        borderRadius: '0',
+      }}
       cover={<img style={{ borderRadius: '0px' }} className="movie-avatar" alt="example" src={img} />}
     >
       <MovieProgress progress={averageVote} />
       <Meta
+        style={{ height: '100%' }}
         className="item-body"
         title={mTitle}
         description={
