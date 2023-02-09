@@ -65,7 +65,6 @@ function MovieCard({
   if (!movieId) {
     return []
   }
-  console.log(width)
   const { rateMovie } = movieService
 
   return (

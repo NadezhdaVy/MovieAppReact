@@ -6,8 +6,6 @@
 @media screen and (1230px <= width < 768px) {
   .movie-rate {
     left: 1em;
-	 bottom: .6em;
+    bottom: 0.6em;
   }
 }
-
-

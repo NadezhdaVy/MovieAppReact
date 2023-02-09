@@ -1,32 +1,25 @@
-
 .movie-item .movie-description {
-	position: absolute;
-	margin-right: 1.5em;
-	bottom: 4em;
-
- }
- .movie-item .item-body{
-	margin-right: 1em;
- } 
-	
- @media screen and (max-width: 1030px) and (min-width: 768px) {
-	.movie-item .movie-description {
-		left: 1em;
-		
+  position: absolute;
+  margin-right: 1.5em;
+  bottom: 4em;
 }
+.movie-item .item-body {
+  margin-right: 1em;
 }
 
- @media screen and (max-width: 500px){
-	.movie-item .movie-description {
-		position: absolute;
-		left: 1em;
+@media screen and (max-width: 1030px) and (min-width: 768px) {
+  .movie-item .movie-description {
+    left: 1em;
+  }
+}
 
-	}
+@media screen and (max-width: 500px) {
+  .movie-item .movie-description {
+    position: absolute;
+    left: 1em;
+  }
 
-	.movie-item {
-		height: 100px;
-	}
- }
-
-
-
+  .movie-item {
+    height: 100px;
+  }
+}
