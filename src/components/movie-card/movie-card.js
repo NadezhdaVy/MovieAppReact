@@ -61,7 +61,7 @@ function MovieCard({
   const release = releaseDate ? formatDate(releaseDate) : null
   const text = overview ? cutText(overview) : null
   const img = cover || null
-  const mTitle = cutText(title, 20)
+
   if (!movieId) {
     return []
   }
@@ -87,7 +87,7 @@ function MovieCard({
       <Meta
         style={{ height: '100%' }}
         className="item-body"
-        title={mTitle}
+        title={title}
         description={
           <div className="card-description">
             <div>
