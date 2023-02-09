@@ -9,7 +9,7 @@ function ViewContent({ items, totalPages, ratedItems, addNewMovie, tabIndex }) {
   return (
     <List
       className="movie-list"
-      grid={{ gutter: 10, lg: 2, xxl: 2, xl: 2, md: 2 }}
+      grid={{ gutter: 10, lg: 2, xxl: 2, xl: 2, md: 2, sm: 1 }}
       dataSource={items}
       renderItem={(item) => (
         <List.Item className="list-item" key={item.movieId}>

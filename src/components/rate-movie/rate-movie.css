@@ -1,6 +1,6 @@
 .movie-rate {
   position: absolute;
-  bottom: 1.5em;
+  bottom: 1em;
   right: 1em;
 }
 @media screen and (1230px <= width < 768px) {
